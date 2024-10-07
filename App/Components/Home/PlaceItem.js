@@ -18,7 +18,7 @@ const PlaceItem = ({place}) => {
           "?maxwidth=400" +
           "&photo_reference=" +
           place?.photos[0]?.photo_reference +
-          "&key=AIzaSyDpwy79IM6EjuRUy0-lpf3wrkkfRvjuGsk",
+          "&key=EXPO_PUBLIC_GOOGLE_API_KEY",
         }}
         style={{ width: 110, height: 110, borderRadius: 15 }}
       />:
