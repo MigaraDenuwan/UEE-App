@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import TabNavigation from './App/Navigations/TabNavigation';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
@@ -12,9 +12,9 @@ const App = () => {
   const [errorMsg, setErrorMsg] = useState(null);
 
   const [fontsLoaded] = useFonts({
-    'raleway': require('./assets/Fonts/Raleway-Regular.ttf'),
-    'raleway-bold': require('./assets/Fonts/Raleway-SemiBold.ttf'),
-    'Appname': require('./assets/Fonts/Fredoka-SemiBold.ttf'),
+    'raleway': require('./assets/fonts/Raleway-Regular.ttf'),
+    'raleway-bold': require('./assets/fonts/Raleway-SemiBold.ttf'),
+    'Appname': require('./assets/fonts/Fredoka-SemiBold.ttf'),
   });
 
   useEffect(() => {

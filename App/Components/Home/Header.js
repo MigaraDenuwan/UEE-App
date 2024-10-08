@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    top:25,
+    top: 25,
     gap: 20,
     alignItems: 'center',
   },
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     top: 5,
   },
   textStyle: {
-    fontFamily: 'Appname', // Ensure 'Appname' is linked correctly or use another font
+    fontFamily: 'Appname',
     fontSize: 35.35,
     fontWeight: '400',
     lineHeight: 42.77,
@@ -62,29 +62,29 @@ const styles = StyleSheet.create({
     top: 5,
   },
   searchBarContainer: {
-    alignSelf: 'center', // Center the container within its parent
+    alignSelf: 'center',
     marginTop: 40,
     marginBottom: 10,
   },
   searchInputContainer: {
-    flexDirection: 'row', // Align items in a row
-    alignItems: 'center', // Center vertically
-    backgroundColor: Colors.LIGHT_GRAY, // Background color of the search bar
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.LIGHT_GRAY,
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: Colors.PRIMARY, // Ensure border color is set
-    paddingHorizontal: 10, // Add horizontal padding
-    width: Dimensions.get('screen').width * 0.6, // Adjust width if necessary
-    height: 40, // Define height for better visibility of the border
+    borderColor: Colors.PRIMARY,
+    paddingHorizontal: 10,
+    width: Dimensions.get('screen').width * 0.6,
+    height: 40,
   },
   searchIcon: {
-    marginRight: 5, // Space between icon and text
+    marginRight: 5,
   },
   searchBar: {
-    flex: 1, // Allow the text input to take up available space
-    color: Colors.DARK_GRAY, // Change text color
-    fontSize: 18, // Change font size
-    fontFamily: 'raleway-bold', // Replace with your desired font family
-    textAlign: 'left', // Align text to the left
+    flex: 1,
+    color: Colors.DARK_GRAY,
+    fontSize: 18,
+    fontFamily: 'raleway-bold',
+    textAlign: 'left',
   },
 });
