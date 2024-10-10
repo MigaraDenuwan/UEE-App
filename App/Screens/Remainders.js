@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 const Reminders = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -22,31 +23,68 @@ const Reminders = () => {
     fetchData();
   }, []);
 
-  const AppointmentItem = ({ doctorName, clinicName, time, selectedDate, Notification }) => (
-    <View style={styles.appointmentItem}>
-      <View style={styles.appointmentIcon}>
-        <Ionicons name="calendar" size={24} color="#C41E3A" />
+  const updateNotification = async (id, newNotificationValue) => {
+    try {
+      await axios.put(`https://momcare.azurewebsites.net/update-notification/${id}`, {
+        Notification: newNotificationValue
+      });
+      setAppointments(prevAppointments =>
+        prevAppointments.map(app =>
+          app._id.$oid === id ? { ...app, Notification: newNotificationValue } : app
+        )
+      );
+    } catch (error) {
+      console.error('Error updating notification:', error);
+    }
+  };
+
+  const handleAppointmentClick = (appointment) => {
+    setSelectedAppointment(appointment);
+  };
+
+  const updateCustomizationSetting = async (setting) => {
+    if (selectedAppointment) {
+      const currentNotification = selectedAppointment.Notification;
+      let newNotification = currentNotification;
+
+      if (currentNotification.includes(setting)) {
+        newNotification = currentNotification.replace(setting, '');
+      } else {
+        newNotification += setting;
+      }
+
+      await updateNotification(selectedAppointment._id.$oid, newNotification);
+      setSelectedAppointment({ ...selectedAppointment, Notification: newNotification });
+    }
+  };
+
+  const AppointmentItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handleAppointmentClick(item)}>
+      <View style={styles.appointmentItem}>
+        <View style={styles.appointmentIcon}>
+          <Ionicons name="calendar" size={24} color="#C41E3A" />
+        </View>
+        <View style={styles.appointmentDetails}>
+          <Text style={styles.appointmentTitle}>{item.clinicName}</Text>
+          <Text style={styles.appointmentDoctor}>{item.doctorName}</Text>
+          <Text style={styles.appointmentDate}>{`${item.selectedDate}, ${item.time}`}</Text>
+        </View>
+        <View style={styles.appointmentActions}>
+          <Switch
+            value={item.Notification !== ""}
+            onValueChange={(newValue) => updateNotification(item._id.$oid, newValue ? "MEN" : "")}
+            trackColor={{ false: "#FAE3E3", true: "#C41E3A" }}
+            thumbColor={item.Notification !== "" ? "#FFFFFF" : "#F4F3F4"}
+          />
+          <TouchableOpacity style={styles.deleteButton}>
+            <Ionicons name="trash-outline" size={24} color="#C41E3A" />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.appointmentDetails}>
-        <Text style={styles.appointmentTitle}>{clinicName}</Text>
-        <Text style={styles.appointmentDoctor}>{doctorName}</Text>
-        <Text style={styles.appointmentDate}>{`${selectedDate}, ${time}`}</Text>
-      </View>
-      <View style={styles.appointmentActions}>
-        <Switch
-          value={Notification === "ME"}
-          onValueChange={() => {}}
-          trackColor={{ false: "#FAE3E3", true: "#C41E3A" }}
-          thumbColor={Notification === "ME" ? "#FFFFFF" : "#F4F3F4"}
-        />
-        <TouchableOpacity style={styles.deleteButton}>
-          <Ionicons name="trash-outline" size={24} color="#C41E3A" />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 
-  const CustomizationItem = ({ title, value, onValueChange, iconName }) => (
+  const CustomizationItem = ({ title, setting, iconName }) => (
     <View style={styles.customizationItem}>
       <View style={styles.customizationIconContainer}>
         <Ionicons name={iconName} size={24} color="#C41E3A" />
@@ -55,10 +93,10 @@ const Reminders = () => {
         <Text style={styles.customizationTitle}>{title}</Text>
       </View>
       <Switch
-        value={value}
-        onValueChange={onValueChange}
+        value={selectedAppointment ? selectedAppointment.Notification.includes(setting) : false}
+        onValueChange={() => updateCustomizationSetting(setting)}
         trackColor={{ false: "#FAE3E3", true: "#C41E3A" }}
-        thumbColor={value ? "#FFFFFF" : "#F4F3F4"}
+        thumbColor={selectedAppointment && selectedAppointment.Notification.includes(setting) ? "#FFFFFF" : "#F4F3F4"}
         style={styles.customizationSwitch}
       />
     </View>
@@ -80,15 +118,7 @@ const Reminders = () => {
           <Text style={styles.subTitle}>Upcoming Appointments</Text>
           <FlatList
             data={appointments}
-            renderItem={({ item }) => (
-              <AppointmentItem
-                doctorName={item.doctorName}
-                clinicName={item.clinicName}
-                time={item.time}
-                selectedDate={item.selectedDate}
-                Notification={item.Notification}
-              />
-            )}
+            renderItem={({ item }) => <AppointmentItem item={item} />}
             keyExtractor={(item) => item._id.$oid}
             showsVerticalScrollIndicator={false}
           />
@@ -96,22 +126,19 @@ const Reminders = () => {
 
         <View style={styles.customizationContainer}>
           <Text style={styles.subTitle}>Customized reminder settings</Text>
-          <CustomizationItem 
-            title="Send to mobile" 
-            value={true} 
-            onValueChange={() => {}} 
+          <CustomizationItem
+            title="Send to mobile"
+            setting="M"
             iconName="phone-portrait-outline"
           />
-          <CustomizationItem 
-            title="Send to email" 
-            value={false} 
-            onValueChange={() => {}} 
+          <CustomizationItem
+            title="Send to email"
+            setting="E"
             iconName="mail-outline"
           />
-          <CustomizationItem 
-            title="Mobile notification" 
-            value={true} 
-            onValueChange={() => {}} 
+          <CustomizationItem
+            title="Mobile notification"
+            setting="N"
             iconName="notifications-outline"
           />
         </View>
@@ -134,9 +161,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
     paddingTop: StatusBar.currentHeight + 10,
-    // backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    // borderRadius: 20,
-    // padding: 10,
   },
   title: {
     fontSize: 28,
