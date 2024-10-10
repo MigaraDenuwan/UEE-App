@@ -1,9 +1,9 @@
 import { View, Text } from 'react-native'
-import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Index from '../Screens/Index';
 import Report from '../Screens/Report';
+import Addvisits from '../Screens/Addvisits';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import HomeNavigation from './HomeNavigation';
@@ -17,7 +17,7 @@ export default function TabNavigation() {
     <Tab.Navigator screenOptions={{
         headerShown:false
     }}>
-        <Tab.Screen name="Report" component={Report} 
+        <Tab.Screen name="Report" component={Addvisits} 
             options={{tabBarLabel: 'Report',
             tabBarIcon: ({color, size}) =>(
                 <FontAwesome5 name="search" size={24} color="black" />
