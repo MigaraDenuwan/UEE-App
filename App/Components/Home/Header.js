@@ -15,9 +15,7 @@ const Header = () => {
   return (
     <View>
       <View style={styles.headerContainer}>
-        <Image source={require('../../../assets/logo.png')} style={styles.logo} />
         <Text style={styles.textStyle}>MomCare</Text>
-        <Image source={require('../../../assets/user.png')} style={styles.userImage} />
       </View>
       <TouchableOpacity style={styles.searchBarContainer} onPress={handleSearchPress}>
         <View style={styles.searchInputContainer}>

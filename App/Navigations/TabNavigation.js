@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Index from '../Screens/Index';
+import Addvisits from '../Screens/Addvisits';
 import Report from '../Screens/Report';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
@@ -22,9 +23,10 @@ export default function TabNavigation() {
         tabBarStyle: styles.tabBar, // Apply your custom styles here
         tabBarLabelStyle: styles.tabLabel, // Style for the tab labels
       }}>
+      
         <Tab.Screen 
           name="Report" 
-          component={Report} 
+          component={Addvisits} 
           options={{
             tabBarLabel: '',
             tabBarIcon: ({ color }) => (
@@ -92,3 +94,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', // Bold font weight for tab labels
   },
 });
+
+
+
