@@ -7,17 +7,18 @@ import GlobalApi from '../Services/GlobalApi';
 import PlaceList from '../Components/Home/PlaceList';
 import { ScrollView } from 'react-native';
 import { UserLocationContext } from '../Context/UserLocationContext';
-import DoctorList from '../Components/Home/DoctorList'; // Import the DoctorList component
+import DoctorList from '../Components/Home/DoctorList';
 
 const Home = () => {
   const [placeList, setPlaceList] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('hospital');
   const { location, setLocation } = useContext(UserLocationContext);
 
   useEffect(() => {
     if (location && location.coords) {
-      GetNearBySearchPlace('hospital');
+      GetNearBySearchPlace(selectedCategory);
     }
-  }, []);
+  }, [location, selectedCategory]);
 
   const GetNearBySearchPlace = (value) => {
     GlobalApi.nearByPlace(location.coords.latitude, location.coords.longitude, value)
@@ -32,15 +33,14 @@ const Home = () => {
       style={{ flex: 1, resizeMode: 'cover' }} 
       imageStyle={{ opacity: 0.7 }}  
     >
-            <Header />
+      <Header />
       <ScrollView style={{ padding: 20, backgroundColor: 'transparent', flex: 1 }}>
-        <GoogleMapView placeList={placeList}/>
-        <CategoryList setSelectedCategory={(value)=>GetNearBySearchPlace(value)} />
+        <GoogleMapView placeList={placeList} />
+        <CategoryList setSelectedCategory={setSelectedCategory} />
         
-        {/* Add the DoctorList component here */}
-        <DoctorList /> 
+        {selectedCategory === 'doctor' && <DoctorList />} 
 
-        {placeList ? <PlaceList placeList={placeList} /> : null}
+        {placeList.length > 0 ? <PlaceList placeList={placeList} /> : null}
       </ScrollView>
     </ImageBackground>
   );
