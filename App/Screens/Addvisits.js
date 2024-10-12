@@ -7,8 +7,11 @@ import axios from 'axios';
 import Modal from 'react-native-modal';
 import { AntDesign } from '@expo/vector-icons';
 const backgroundImage = require('../../assets/Background.png');
+import { useNavigation } from '@react-navigation/native';
+
 const Addvisits = () => {
     const [doctorName, setDoctorName] = useState('');
+    const navigation = useNavigation();
     const [clinicName, setClinicName] = useState('');
     const [time, setTime] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
@@ -185,6 +188,10 @@ const Addvisits = () => {
                             transform: [{ translateY: slideAnim }]
                         }
                     ]}>
+                        <View style={[styles.modalHeader, isSuccess ? styles.successHeader : styles.errorHeader]}>
+                            <AntDesign name={isSuccess ? "checkcircleo" : "closecircleo"} size={30} color="white" />
+                            <Text style={styles.modalHeaderText}>{isSuccess ? 'Success' : 'Error'}</Text>
+                        </View>
                         <View style={[styles.modalHeader, isSuccess ? styles.successHeader : styles.errorHeader]}>
                             <AntDesign name={isSuccess ? "checkcircleo" : "closecircleo"} size={30} color="white" />
                             <Text style={styles.modalHeaderText}>{isSuccess ? 'Success' : 'Error'}</Text>

@@ -6,6 +6,7 @@ import Search from '../Screens/Search'; // Import your Search component
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import DoctorDetails from '../Components/DoctorDetails/DoctorDetails'; // Ensure correct import
 import DoctorReview from '../Components/DoctorDetails/DoctorReview';
+import Addvisits from '../Screens/Addvisits';
 
 const HomeNavigation = () => {
     const isAndroid = true;
@@ -51,6 +52,15 @@ const HomeNavigation = () => {
                 <Stack.Screen 
                     name="DoctorReview" 
                     component={DoctorReview} 
+                    options={{
+                        title: "",
+                        presentation: 'modal', // Treat this screen as a modal
+                        ...TransitionPresets.ModalSlideFromBottomIOS, // Slide from bottom transition
+                    }} 
+                />
+                <Stack.Screen 
+                    name="Addvisit" 
+                    component={Addvisits} 
                     options={{
                         title: "",
                         presentation: 'modal', // Treat this screen as a modal

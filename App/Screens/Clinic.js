@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions, ImageBackground } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.8;
@@ -85,6 +86,11 @@ const Clinic = () => {
     const slideSize = event.nativeEvent.layoutMeasurement.width;
     const index = Math.round(event.nativeEvent.contentOffset.x / slideSize);
     setActiveAppointmentIndex(index);
+  };
+  const navigation = useNavigation();
+
+  const goAddVisit = () => {
+    navigation.navigate('Addvisit'); // Navigate to Addvisit screen
   };
 
   const handleTipScroll = (event) => {
@@ -192,7 +198,7 @@ const Clinic = () => {
         />
         {renderDotIndicator(activeTipIndex, tipData.length)}
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={goAddVisit}>
           <Text style={styles.buttonText}>Add New Visit</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>

@@ -47,6 +47,7 @@ const DoctorReview = () => {
         {
           text: 'OK',
           onPress: () => navigation.pop(2),
+
         },
       ],
       { cancelable: false } 
